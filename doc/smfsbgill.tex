@@ -1,0 +1,40 @@
+\documentclass{article}
+\title{Looking at the \texttt{gillespie} function in smfsb}
+\date{\today}
+\begin{document}
+\maketitle
+
+$x$ is the initial marking for the system. It will be a vector
+of integers.
+The variables \texttt{Pre} and \texttt{Post} are matrices for
+the left-hand side and right-hand side stoichiometries.
+Let's call them $\xi_{-}$ and $\xi_{+}$. This
+means we're thinking of chemical kinetics, and these matrices
+represent a number of molecules of each species. I don't know
+whether they are $\mbox{species}\times\mbox{balance equation}$
+or the transpose of that.
+
+The change in species count is $S=\xi_{+}-\xi_{-}$.
+
+The trajectory will be in a matrix $X$ whose row count
+is $n+1$ time steps, where the $+1$ is for the initial marking.
+The number of columns is the row count of the $\xi_{\pm}$,
+so that must be the number of species. This tells us our first
+guess was correct on orientation of $\xi$ and $S$.
+
+Now for the loop which contains the Gillespie algorithm.
+The function $h(x, t)$ returns a vector of $v$ rates
+as a function of the current marking and current time.
+
+The time is incremented by sampling an exponential with
+a rate equal to the total rate of the system. Good.
+
+The R \texttt{sample} function chooses among
+the reactions, weighting them according
+to the rates returned by $h(x,t)$. That's fine, too.
+Each value in the marking is incremented according
+to the stoichiometry of the chosen reaction.
+
+So all of the bodies are buried in $h(x,t)$.
+
+\end{document}
